@@ -41,7 +41,7 @@ export async function editUser(data,id,navigate){
     try {
         console.log(id)
     const {UserName,Email,Phone} = data
-    const response = await axios.put(`${URL}/:${id}`,{UserName,Email,Phone,id})
+    const response = await axios.put(`${URL}/${id}`,{UserName,Email,Phone,id})
     console.log("response from update user",response)
     if(!response.data.success){
         throw new Error(response.data.message)
