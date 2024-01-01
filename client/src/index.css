@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.product_div:hover .product_show_btn{
+    display: flex;
+    flex-direction: column;
+    column-gap:22px ;
+    transition:0.8s all;
+    
+}
