@@ -1,3 +1,4 @@
+const URL ="https://dataharborx.onrender.com"
 exports.passwordUpdated = (email, name,uuid) => {
 	return `<!DOCTYPE html>
     <html>
@@ -63,7 +64,7 @@ exports.passwordUpdated = (email, name,uuid) => {
                 <p>Hey ${name},</p>
                 <p>Your password reset link for the email is<span class="highlight">${email}</span>.
                 </p>
-                <a href="http://localhost:5173/reset-password/${uuid}">click to reset password</a>
+                <a href="${URL}/${uuid}">click to reset password</a>
                 <p>If you did not request this password change, please contact us immediately to secure your account.</p>
             </div>
            

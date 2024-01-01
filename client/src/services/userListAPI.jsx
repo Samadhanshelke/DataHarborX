@@ -1,11 +1,11 @@
 import axios from "axios";
 import {setUserList} from '../slices/userListingSlice'
 import toast from "react-hot-toast";
-
+const URL ="https://dataharborx.onrender.com"
 export function getUserList(){
     
    return async(dispatch)=>{
-       await axios.get('http://localhost:3001/getuserlisting').then((response)=>{
+       await axios.get(`${URL}/getuserlisting`).then((response)=>{
          
                console.log("all users",response.data.users)
                localStorage.setItem("updateuser", JSON.stringify(response.data.users))
@@ -22,7 +22,7 @@ export function getUserList(){
 }
 export async function createUser(data,navigate){
     try {
-        const response = await axios.post('http://localhost:3001/createUser',data)
+        const response = await axios.post(`${URL}/createUser`,data)
         console.log("new user",response)
         if(!response.data.success){
             throw new Error(response.data.message)
@@ -41,7 +41,7 @@ export async function editUser(data,id,navigate){
     try {
         console.log(id)
     const {UserName,Email,Phone} = data
-    const response = await axios.put(`http://localhost:3001/edituser/:${id}`,{UserName,Email,Phone,id})
+    const response = await axios.put(`${URL}/:${id}`,{UserName,Email,Phone,id})
     console.log("response from update user",response)
     if(!response.data.success){
         throw new Error(response.data.message)
@@ -58,7 +58,7 @@ export async function editUser(data,id,navigate){
 export async function deleteUser(userId,navigate){
     try {
         console.log("deleteuserid",userId)
-        const response = await axios.delete(`http://localhost:3001/deleteuser/${userId}`)
+        const response = await axios.delete(`${URL}/deleteuser/${userId}`)
         console.log(response)
         if(!response.data.success){
             throw new Error(response.data.message)
@@ -74,7 +74,7 @@ export async function deleteUser(userId,navigate){
 
 export async function UpdateProfilePicture(image,id,setImageName,navigate){
   try {
-    const response = await axios.put('http://localhost:3001/updateProfilePicture',{image,id},
+    const response = await axios.put(`${URL}/updateProfilePicture`,{image,id},
     {
         headers:{"Content-Type":"multipart/form-data"},
     })

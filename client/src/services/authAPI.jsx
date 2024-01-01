@@ -3,7 +3,7 @@ import axios from "axios"
 import {setUser} from '../slices/profileSlice';
 import {setLoading, setToken} from '../slices/authSlice'
 import toast from "react-hot-toast";
-
+const URL ="https://dataharborx.onrender.com"
 // sendotp function
 export function sendOtp(Email,navigate){
    return async (dispatch)=>{
@@ -12,7 +12,7 @@ export function sendOtp(Email,navigate){
     console.log("email", Email)
     try {
       
-          const response = await axios.post('http://localhost:3001/sendotp', {Email})
+          const response = await axios.post(`${URL}/sendotp`, {Email})
           console.log(response)
           if (!response.data.success) {
             throw new Error(response.data.message)
@@ -37,7 +37,7 @@ export function signUp( Name,Email,Phone,Password,otp,navigate){
     console.log("in signup function", Name,Email,Phone,Password,otp)
     dispatch(setLoading(true))
     try {
-      const response = await axios.post('http://localhost:3001/signup', {
+      const response = await axios.post(`${URL}/signup`, {
         Name,
         Email,
         Phone,
@@ -68,7 +68,7 @@ export function signUp( Name,Email,Phone,Password,otp,navigate){
 export function login(data,navigate){
   return async (dispatch)=>{
     console.log("first")
-    axios.post('http://localhost:3001/login',data).then((response)=>{
+    axios.post(`${URL}/login`,data).then((response)=>{
       console.log(response)
       dispatch(setUser(response.data.user))
       dispatch(setToken(response.data.token))
@@ -100,7 +100,7 @@ export function logout(navigate){
 //forgot otp
 export async function forgotPassword(email){
     try {
-      const response =await axios.post("http://localhost:3001/reset-password-token",{email})
+      const response =await axios.post(`${URL}/reset-password-token`,{email})
        if(!response.data.success){
           throw new Error(response.data.message)
        }
