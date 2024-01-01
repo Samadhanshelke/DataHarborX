@@ -14,7 +14,7 @@ const Hero = () => {
                 <p className="text-[18px] font-serif text-gray-600">Effortless CRUD Operations, Enhanced Filtering, and Offline Capabilities for Streamlined User Interaction</p>
           </div>
               <div>
-                  <img src="../../public/Images/hero.jpg" alt="" className="h-[300px] w-[500px]"/>
+                  <img src="Images/hero.jpg" alt="" className="h-[300px] w-[500px]"/>
           </div>
           </div>
 
