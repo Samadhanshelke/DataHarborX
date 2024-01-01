@@ -71,7 +71,7 @@ const UpdateUser = () => {
               <div>          
                          <span>
                          {
-                          Image === null ? <VscAccount className="text-4xl"/>: <img src={`../../public/Images/${Image}`} className="w-[100px] h-[100px] rounded"/>
+                          Image === null ? <VscAccount className="text-4xl"/>: <img src={`Images/${Image}`} className="w-[100px] h-[100px] rounded"/>
                          }
                             
                         
