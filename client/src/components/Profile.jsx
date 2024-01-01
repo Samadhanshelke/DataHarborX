@@ -30,7 +30,7 @@ const Profile = () => {
             <MdOutlineArrowDropDown/> 
             
          </span>
-         <div className="absolute top-10 left-[-26px]">
+         <div className="absolute top-10 left-[-70px]  sm:top-10 sm:left-[-26px] md:left-[-90px] lg:left-[-60px]">
              {
                 openDropdown ? <Dropdown openDropdown={openDropdown} setOpendropdown={setOpendropdown}/> : null
              }

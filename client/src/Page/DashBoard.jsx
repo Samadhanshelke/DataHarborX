@@ -161,7 +161,7 @@ const handleNavigate = (user)=>{
    
   return (
     <div className="w-11/12 flex flex-col items-center gap-y-4 justify-center m-auto mt-6">
-        <div className="w-11/12 flex  justify-between items-center ">
+        <div className="w-11/12 flex  justify-between items-center flex-wrap gap-y-2">
           <div><Sort handleSort={handleSort}/></div>
           <div>
              <input type="text" placeholder="search" className="border border-black rounded px-2 py-1 w-[250px]" value={search} onChange={(e)=>setSearch(e.target.value)}/>

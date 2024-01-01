@@ -67,35 +67,35 @@ const UpdateUser = () => {
   return (
     <div className="w-11/12 flex flex-col m-auto justify-center items-center mt-6">
          <h1 className="text-3xl mb-6">Update User</h1>
-         <div className="flex gap-x-6">
+         <div className="flex gap-x-6 flex-col sm:flex-row">
               <div>          
                          <span>
                          {
-                          Image === null ? <VscAccount className="text-4xl"/>: <img src={`Images/${Image}`} className="w-[100px] h-[100px] rounded"/>
+                          Image === null ? <VscAccount className="text-4xl"/>: <img src={`Images/${Image}`} className="sm:w-[100px] h-[100px] rounded"/>
                          }
                             
                         
                           </span>
                           <span className='flex flex-col gap-y-2'>
                               <label htmlFor="profile">Profile Picture</label>
-                              <input className='border w-80 border-black px-4 py-1 rounded' type="file" name="profile" id="profile"  onChange={handleInputChange}/>
+                              <input className='border w-64 sm:w-96 border-black px-4 py-1 rounded' type="file" name="profile" id="profile"  onChange={handleInputChange}/>
                           </span>
                           <button onClick={handleImageUpload} className="bg-blue-500 hover:bg-blue-400 w-full mt-4 text-white px-2 py-2 rounded">Upload Picture</button>
               </div>
               <form className="flex flex-col items-center justify-center gap-y-3" onSubmit={handleSubmit(onSubmit)}>
                         <span className='flex flex-col gap-y-2'>
                               <label htmlFor="username">Username</label>
-                              <input className='border w-96 border-black px-4 py-1 rounded' type="text" name="username" id="username" {...register("UserName",{ required: true })}/>
+                              <input className='border w-64 sm:w-96 border-black px-4 py-1 rounded' type="text" name="username" id="username" {...register("UserName",{ required: true })}/>
                               {errors.UserName && <span className="text-red-500 text-[12px]">*This field is required</span>}
                           </span>
                           <span className='flex flex-col gap-y-2'>
                               <label htmlFor="email">Email</label>
-                              <input className='border w-96 border-black px-4 py-1 rounded' type="email" name="email" id="email" {...register("Email",{ required: true })}/>
+                              <input className='border w-64 sm:w-96 border-black px-4 py-1 rounded' type="email" name="email" id="email" {...register("Email",{ required: true })}/>
                               {errors.Email && <span className="text-red-500 text-[12px]">*This field is required</span>}
                           </span>
                           <span className='flex flex-col gap-y-2'>
                               <label htmlFor="phone">Phone</label>
-                              <input className='border w-96 border-black px-4 py-1 rounded' type="tel" name="phone" id="phone" {...register("Phone",{ required: true })}/>
+                              <input className='border w-64 sm:w-96 border-black px-4 py-1 rounded' type="tel" name="phone" id="phone" {...register("Phone",{ required: true })}/>
                               {errors.Phone && <span className="text-red-500 text-[12px]">*This field is required</span>}
                           </span>
                           

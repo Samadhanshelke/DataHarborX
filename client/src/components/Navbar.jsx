@@ -11,7 +11,7 @@ const Navbar = () => {
              <span className='text-3xl font-semibold '>Data</span>
              <span className='text-2xl font-semibold tracking-wider  text-gray-800 ml-0.5'>HarborX</span>
           </div>
-          <div className='flex gap-x-6 text-lg'>
+          <div className='hidden sm:flex gap-x-6 text-lg'>
              <Link to={"/"}>Home</Link>
             
             <Link to={"/dashboard"}>Dashboard</Link>
