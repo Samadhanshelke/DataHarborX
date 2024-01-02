@@ -38,7 +38,6 @@ function App() {
             <Route path='/reset-password/:id' element={
                <PrivateRoute>
                      <RessetPassword/>
-
                </PrivateRoute>
             }/>
             <Route path='/dashboard' element={
