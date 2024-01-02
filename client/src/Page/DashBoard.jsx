@@ -9,8 +9,9 @@ import { setUserList } from "../slices/userListingSlice";
 import toast from "react-hot-toast";
 // import { isHtmlElement } from "react-router-dom/dist/dom";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+// import 'dist/react-super-responsive-table.js'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-
+// import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"
 const DashBoard = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -189,7 +190,7 @@ const handleNavigate = (user)=>{
                  .map((user)=>{
                   const {Email,Phone,UserName} = user
                   return (
-                    <Tr key={user._id}>
+                    <Tr key={user._id} className="even:bg-gray-100">
                         <Td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
                           <h1>{user.UserName}</h1>
                         </Td>
@@ -199,9 +200,9 @@ const handleNavigate = (user)=>{
                         <Td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
                           <h1>{user.Phone}</h1>
                         </Td>
-                        <Td className="border  p-2 flex gap-x-4">
+                        <Td className="border  p-2 flex sm:gap-x-4">
                           <button className="bg-slate-400 px-3 py-1 rounded text-white" onClick={()=> {handleNavigate(user)}}>edit</button>
-                          <button className="bg-red-500 px-3 py-1 rounded text-white" onClick={()=> {handleDeleteUser(user._id,navigate)}}>Delete</button>
+                          <button className="bg-red-500 ms-2 px-2 sm:px-3 py-1 rounded text-white" onClick={()=> {handleDeleteUser(user._id,navigate)}}>Delete</button>
                         </Td>
 
                     </Tr>
