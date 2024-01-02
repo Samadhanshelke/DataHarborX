@@ -8,6 +8,8 @@ import Sort from "../components/Sort";
 import { setUserList } from "../slices/userListingSlice";
 import toast from "react-hot-toast";
 // import { isHtmlElement } from "react-router-dom/dist/dom";
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 const DashBoard = () => {
     const dispatch = useDispatch();
@@ -129,21 +131,12 @@ const DashBoard = () => {
       toast.error("Please enable Wi-Fi or mobile data to continue.")
       // alert("Please enable Wi-Fi or mobile data to continue.");
     };
-    // const fetchData = () => {
-    //   if (onlineStatus) {
-    //     // Perform your API request here
-    //     // For example: fetch('your_api_endpoint')
-    //     console.log("Fetching data from API...");
-    //   } else {
-    //     handleSnackbar();
-    //   }
-    // };
+   
 
     useEffect(()=>{
       const fetchData = () => {
         if (onlineStatus) {
-          // Perform your API request here
-          // For example: fetch('your_api_endpoint')
+          
           console.log("Fetching data from API...");
         } else {
           handleSnackbar();
@@ -173,18 +166,18 @@ const handleNavigate = (user)=>{
         </div>
         {
           userList.length !== 0 ? (
-            <table>
-        <thead>
+            <Table>
+        <Thead>
 
-            <tr>
-              <th className="border p-2 bg-gray-300 w-[400px]">Username</th>
-              <th className="border p-2 bg-gray-300 w-[400px]">Email</th>
-              <th className="border p-2 bg-gray-300 w-[400px]">Phone</th>
-              <th className="border p-2 bg-gray-300 w-[400px]">Actions</th>
+            <Tr>
+              <Th className="border p-2 bg-gray-300 w-[400px]">Username</Th>
+              <Th className="border p-2 bg-gray-300 w-[400px]">Email</Th>
+              <Th className="border p-2 bg-gray-300 w-[400px]">Phone</Th>
+              <Th className="border p-2 bg-gray-300 w-[400px]">Actions</Th>
               
-            </tr>
-        </thead>
-         <tbody>
+            </Tr>
+        </Thead>
+         <Tbody>
 
 
               {
@@ -196,29 +189,29 @@ const handleNavigate = (user)=>{
                  .map((user)=>{
                   const {Email,Phone,UserName} = user
                   return (
-                    <tr key={user._id}>
-                        <td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
+                    <Tr key={user._id}>
+                        <Td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
                           <h1>{user.UserName}</h1>
-                        </td>
-                        <td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
+                        </Td>
+                        <Td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
                           <h1>{user.Email}</h1>
-                        </td>
-                        <td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
+                        </Td>
+                        <Td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
                           <h1>{user.Phone}</h1>
-                        </td>
-                        <td className="border  p-2 flex gap-x-4">
+                        </Td>
+                        <Td className="border  p-2 flex gap-x-4">
                           <button className="bg-slate-400 px-3 py-1 rounded text-white" onClick={()=> {handleNavigate(user)}}>edit</button>
                           <button className="bg-red-500 px-3 py-1 rounded text-white" onClick={()=> {handleDeleteUser(user._id,navigate)}}>Delete</button>
-                        </td>
+                        </Td>
 
-                    </tr>
+                    </Tr>
                   )
                 })
                 
               }
-         </tbody>
+         </Tbody>
           
-        </table>
+        </Table>
           ): <h1 className="text-red-400 text-3xl">No data found</h1>
         }
         
