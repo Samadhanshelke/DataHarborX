@@ -3,22 +3,33 @@ import {deleteUser, getUserList } from "../services/userListAPI"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import UserWindow from "../components/UserWindow";
-import Sort from "../components/Sort";
+// import UserWindow from "../components/UserWindow";
+import Sort from "../components/Dashboard/Sort";
 import { setUserList } from "../slices/userListingSlice";
 import toast from "react-hot-toast";
-// import { isHtmlElement } from "react-router-dom/dist/dom";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
-// import 'dist/react-super-responsive-table.js'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-// import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"
+import { Button } from "@mui/material";
+import { useTheme } from "@emotion/react";
+import Loading from "../components/common/Loading";
+// import SaveAsPdf from "../components/Dashboard/SaveAsPdf";
+// import UserTable from "../components/Dashboard/Table";
+// import BasicTable from "../components/BasicTable";
+import { FiEdit } from "react-icons/fi";
+import { MdOutlineDelete } from "react-icons/md";
+import Downloadbtn from "../components/Dashboard/Downloadbtn";
+
+
+
 const DashBoard = () => {
+  const theme = useTheme();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [info,setInfo] = useState({})
-    const [box,setBox] = useState(false)
+    // const [info,setInfo] = useState({})
+    // const [box,setBox] = useState(false)
     const userList = useSelector((state)=>state.userLists.userList)   
-    const [search, setSearch] = useState(localStorage.getItem("searchterm"))
+    const {token} = useSelector((state)=>state.auth)   
+    const [search, setSearch] = useState(localStorage.getItem("searchterm") || '')
   
     useEffect(()=>{
     localStorage.setItem("searchterm",search)
@@ -87,8 +98,8 @@ const DashBoard = () => {
     const handleDeleteUser = async (userId,navigate) => {
       try {
         
-        await deleteUser(userId,navigate);
-        dispatch(getUserList()); // Fetch updated user list after deletion
+        await deleteUser(userId,navigate,token);
+        dispatch(getUserList(token)); // Fetch updated user list after deletion
       } catch (error) {
         console.error("Error deleting user:", error);
       }
@@ -99,17 +110,17 @@ const DashBoard = () => {
   
   useEffect(()=>{
    
-    dispatch(getUserList())
+    dispatch(getUserList(token))
 
-  },[dispatch])
+  },[dispatch,token])
 
    
 
-    const openWindow = (Email,Phone,UserName)=>{
-      console.log("click",Email,Phone,UserName)
-      setInfo({Email,Phone,UserName})
-      setBox(!box) 
-    }
+    // const openWindow = (Email,Phone,UserName)=>{
+    //   console.log("click",Email,Phone,UserName)
+    //   setInfo({Email,Phone,UserName})
+    //   setBox(!box) 
+    // }
     const [onlineStatus, setOnlineStatus] = useState(navigator.onLine);
 
     useEffect(() => {
@@ -154,27 +165,36 @@ const handleNavigate = (user)=>{
    
    
   return (
-    <div className="w-11/12 flex flex-col items-center gap-y-4 justify-center m-auto mt-6">
+    <div className="w-11/12 flex flex-col items-center gap-y-4 justify-center m-auto my-6">
         <div className="w-11/12 flex  justify-between items-center flex-wrap gap-y-2">
           <div><Sort handleSort={handleSort}/></div>
           <div>
              <input type="text" placeholder="search" className="border border-black rounded px-2 py-1 w-[250px]" value={search} onChange={(e)=>setSearch(e.target.value)}/>
 
           </div>
-          
-          <Link to={'/createUser'} className="border bg-gray-800 px-2 py-1 rounded hover:bg-gray-700 text-white">Add User</Link>
+            {
+              userList.length !== 0 ? <Downloadbtn/> :null
+            }
+           
+
+          <Link to={'/createUser'} >
+          <Button color="primary" variant="contained">ADD USER</Button>      
+          </Link>
+       
           
         </div>
+      
+     
         {
           userList.length !== 0 ? (
-            <Table>
+        <Table className="mt-6 text-black rounded">
         <Thead>
 
-            <Tr>
-              <Th className="border p-2 bg-gray-300 w-[400px]">Username</Th>
-              <Th className="border p-2 bg-gray-300 w-[400px]">Email</Th>
-              <Th className="border p-2 bg-gray-300 w-[400px]">Phone</Th>
-              <Th className="border p-2 bg-gray-300 w-[400px]">Actions</Th>
+            <Tr className="bg-[#86A7FC] text-white text-left ps-2 font-normal tracking-wider text-base ">
+              <Th className="p-2 w-[400px] rounded-s-md">UserName</Th>
+              <Th className="p-2  w-[400px]">Email</Th>
+              <Th className="p-2  w-[400px]">Phone</Th>
+              <Th className="p-2  w-[400px] rounded-e-md">Actions</Th>
               
             </Tr>
         </Thead>
@@ -188,21 +208,23 @@ const handleNavigate = (user)=>{
                      : user.UserName.toLowerCase().includes(search) || user.Email.toLowerCase().includes(search) ||user.Phone.includes(search) ;
                 })
                  .map((user)=>{
-                  const {Email,Phone,UserName} = user
+                 
                   return (
-                    <Tr key={user._id} className="even:bg-gray-100">
-                        <Td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
+                    <Tr key={user._id} className=" text-black border-b">
+                        <Td className="p-2">
                           <h1>{user.UserName}</h1>
                         </Td>
-                        <Td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
+                        <Td className="p-2" >
                           <h1>{user.Email}</h1>
                         </Td>
-                        <Td className="border  p-2" onClick={()=>openWindow(Email,Phone,UserName)}>
+                        <Td className="p-2">
                           <h1>{user.Phone}</h1>
                         </Td>
-                        <Td className="border  p-2 flex sm:gap-x-4">
-                          <button className="bg-slate-400 px-3 py-1 rounded text-white" onClick={()=> {handleNavigate(user)}}>edit</button>
-                          <button className="bg-red-500 ms-2 px-2 sm:px-3 py-1 rounded text-white" onClick={()=> {handleDeleteUser(user._id,navigate)}}>Delete</button>
+                        <Td className="p-2 flex sm:gap-x-4 ">
+                        <Button size="md"  variant="contained" color="success" className="tracking-wider"  onClick={()=> {handleNavigate(user)}}><FiEdit className="text-xl"/></Button>
+                        {/* <FiEdit/> */}
+                        <Button size="md"  variant="contained" style={{ backgroundColor: theme.palette.primary.danger }} className="tracking-wider"   onClick={()=> {handleDeleteUser(user._id,navigate)}}><MdOutlineDelete className="text-xl"/></Button>
+                        {/* <MdOutlineDelete/> */}
                         </Td>
 
                     </Tr>
@@ -213,14 +235,16 @@ const handleNavigate = (user)=>{
          </Tbody>
           
         </Table>
-          ): <h1 className="text-red-400 text-3xl">No data found</h1>
+       
+          ): <h1 className="text-red-400 text-3xl"><Loading/></h1>
         }
+        {/* <UserTable/> */}
         
-          <div className="absolute top-[50%]">
+          {/* <div className="absolute top-[50%]">
           {
              box && <UserWindow info={info} setBox={setBox}/>
           }
-          </div>
+          </div> */}
 
         
        

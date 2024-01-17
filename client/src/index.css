@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    font-family: 'Montserrat', sans-serif;
+}
 
 .product_div:hover .product_show_btn{
     display: flex;
@@ -9,4 +12,11 @@
     column-gap:22px ;
     transition:0.8s all;
     
+}
+.navbar{
+    height: 56px;
+}
+.login_div{
+    height: calc(100%-56px);
+
 }

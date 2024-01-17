@@ -16,7 +16,7 @@ const VerifyEmail = () => {
      Name,
      Email,
      Phone,
-     Password
+     Password,City,State,Gender,hearAbout
     } = signupData;
 
     dispatch(
@@ -26,6 +26,10 @@ const VerifyEmail = () => {
         Phone,
         Password,
         otp,
+        City,
+        State,
+        Gender,
+        hearAbout,
         navigate
       )
     );

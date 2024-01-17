@@ -12,7 +12,7 @@ const Profile = () => {
     useEffect(() => {
         const handleOutsideClick = (event) => {
           if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setOpendropdown(false); // Close the sidebar if clicked outside
+            setOpendropdown(false);
           }
         };
     
@@ -25,12 +25,12 @@ const Profile = () => {
   return (
     <div className="relative" ref={dropdownRef} >
          
-         <span className="text-2xl flex justify-start items-center border-2 border-gray-200 cursor-pointer rounded" onClick={handleOpenDropdown}>
+         <span className="text-2xl flex text-white justify-start items-center border-2 border-gray-200 cursor-pointer rounded" onClick={handleOpenDropdown}>
             <MdPerson/>
             <MdOutlineArrowDropDown/> 
             
          </span>
-         <div className="absolute top-10 left-[-70px]  sm:top-10 sm:left-[-26px] md:left-[-90px] lg:left-[-60px]">
+         <div className="absolute top-10 left-[-70px]  sm:top-12 sm:left-[-26px] md:left-[-90px] lg:left-[-60px]">
              {
                 openDropdown ? <Dropdown openDropdown={openDropdown} setOpendropdown={setOpendropdown}/> : null
              }

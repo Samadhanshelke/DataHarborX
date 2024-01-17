@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { MdErrorOutline } from "react-icons/md";
 import { forgotPassword } from "../services/authAPI";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 const ForgotPassword = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const[email,setEmail] = useState("")
   const handleForgotPassword = (e)=>{
      e.preventDefault();
      console.log(email)
-    forgotPassword(email)
+    dispatch(forgotPassword(email,navigate))
 
   }
   return (

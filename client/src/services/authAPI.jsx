@@ -1,9 +1,10 @@
 import axios from "axios"
 
 import {setUser} from '../slices/profileSlice';
-import {setLoading, setToken} from '../slices/authSlice'
+import {setLoading, setToken, setUuid} from '../slices/authSlice'
 import toast from "react-hot-toast";
-const URL ="https://dataharborx.onrender.com"
+// const URL ="https://dataharborx.onrender.com"
+const URL ="http://localhost:3001/api/auth"
 // sendotp function
 export function sendOtp(Email,navigate){
    return async (dispatch)=>{
@@ -31,10 +32,10 @@ export function sendOtp(Email,navigate){
 
 //signup function
 
-export function signUp( Name,Email,Phone,Password,otp,navigate){
+export function signUp( Name,Email,Phone,Password,otp,City,State,Gender,hearAbout,navigate){
   return async(dispatch)=>{
     const toastId = toast.loading("Loading...")
-    console.log("in signup function", Name,Email,Phone,Password,otp)
+    console.log("in signup function", Name,Email,Phone,Password,otp,City,State,Gender,hearAbout)
     dispatch(setLoading(true))
     try {
       const response = await axios.post(`${URL}/signup`, {
@@ -42,7 +43,11 @@ export function signUp( Name,Email,Phone,Password,otp,navigate){
         Email,
         Phone,
         Password,
-        otp
+        otp,
+        City,
+        State,
+        Gender,
+        hearAbout
       })
   
       
@@ -67,19 +72,25 @@ export function signUp( Name,Email,Phone,Password,otp,navigate){
 //login function
 export function login(data,navigate){
   return async (dispatch)=>{
-    console.log("first")
-    axios.post(`${URL}/login`,data).then((response)=>{
-      console.log(response)
-      dispatch(setUser(response.data.user))
-      dispatch(setToken(response.data.token))
+    try {
+      axios.post(`${URL}/login`,data).then((response)=>{
+        console.log(response)
+        dispatch(setUser(response.data.user))
+        dispatch(setToken(response.data.token))
+  
+        localStorage.setItem("user",JSON.stringify(response.data.user))
+        localStorage.setItem("token",JSON.stringify(response.data.token))
+        toast.success('Login Successfully.');
+        navigate("/")
+      }).catch(()=>{
+        toast.error('invalid credential')
+      })
+    } catch (error) {
+      toast.error('invalid credential')
+      console.log(error)
+    }
+   
 
-      localStorage.setItem("user",JSON.stringify(response.data.user))
-      localStorage.setItem("token",JSON.stringify(response.data.token))
-      toast.success('Login Successfully.');
-      navigate("/")
-    }).catch((err)=>{
-      console.log(err)
-    })
   }
     
 }
@@ -97,17 +108,38 @@ export function logout(navigate){
   }
 }
 
-//forgot otp
-export async function forgotPassword(email){
-    try {
-      const response =await axios.post(`${URL}/reset-password-token`,{email})
-       if(!response.data.success){
-          throw new Error(response.data.message)
-       }
-       console.log(response);
-       toast.success("please check Email")
+export function forgotPassword(email,navigate){
+  return async (dispatch)=>{
+        try {
+          const response =await axios.post(`${URL}/reset-password-token`,{email})
+          if(!response.data.success){
+              throw new Error(response.data.message)
+          }
+          console.log(response);
+          dispatch(setUuid(response.data.uuid))
+          localStorage.setItem('uuid',JSON.stringify(response.data.uuid))
+          toast.success("please check Email")
+          navigate('/')
+      
+        } catch (error) {
+          console.log(error)
+        }
 
-    } catch (error) {
-      console.log(error)
-    }
+  }
+}
+
+
+export async function ResetPassword(Password,Confirm_Password,Email,navigate){
+  try {
+    const response =await axios.post(`${URL}/reset-password`,{Password,Confirm_Password,Email});
+    if(!response.data.success){
+      throw new Error(response.data.message)
+   }
+   console.log(response);
+   toast.success("Password Changed Successfully,Please login")
+   navigate('/login')
+  } catch (error) {
+    console.log(error)
+  }
+
 }

@@ -2,9 +2,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import HomePage from './Page/HomePage'
-import Navbar from './components/Navbar'
-import Login from './components/Login'
-import Signup from './components/Signup'
+import Navbar from './components/common/Navbar'
+import Login from './components/Login/Login'
+import Signup from './components/Signup/Signup'
 import {Toaster} from 'react-hot-toast';
 import PrivateRoute from './Auth/PrivateRoute'
 import VerifyEmail from './Page/VerifyEmail'
@@ -26,19 +26,18 @@ function App() {
             <Route path='/signup' element={<Signup/>}/>
            
             <Route path='/verify-email' element={
-              <PrivateRoute>
-                  <VerifyEmail/>
-              </PrivateRoute>
+                  <VerifyEmail/> 
             }/>
+
             <Route path='/reset-password' element={
-               <PrivateRoute>
+             
                    <ForgotPassword/>
-               </PrivateRoute>
+             
             }/>
             <Route path='/reset-password/:id' element={
-               <PrivateRoute>
+              
                      <RessetPassword/>
-               </PrivateRoute>
+               
             }/>
             <Route path='/dashboard' element={
                <PrivateRoute>

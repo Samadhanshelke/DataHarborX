@@ -16,6 +16,24 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    Gender:{
+        type:String,
+        required:true
+    },
+    City:{
+        type:String,
+        required:true
+    },
+    State:{
+        type:String,
+        required:true
+    },
+    hearAbout: {
+        type: [String],
+        enum: ['Friends', 'LinkedIn','Job Portal','Other'],
+        required: true,
+      },
+
     isAdmin:{
         type:Boolean,
         default:false

@@ -15,7 +15,7 @@ const UserListingSchema = new mongoose.Schema({
     },
     Image:{
         type:String,
-        default:null
+        
     }
     
 },{timestamps:true})

@@ -63,9 +63,10 @@ exports.SendOtp = async(req,res)=>{
 exports.signUp = async(req,res)=>{
      try {
        
-       const {Name,Email,Password,Phone,otp} = req.body;
-       console.log("in signup function", Name,Email,Phone,Password,otp)
-     if(!Name || !Email || !Password || !Phone || !otp){
+       const {Name,Email,Password,Phone,otp,City,State,Gender,hearAbout} = req.body;
+       console.log(req.body)
+       console.log("in signup function", Name,Email,Phone,Password,otp,City,State,Gender,hearAbout)
+     if(!Name || !Email || !Password || !Phone || !otp || !City || !State || !Gender || !hearAbout){
        return res.status(400).json({
             success:false,
             message:"All field are required"
@@ -105,7 +106,11 @@ exports.signUp = async(req,res)=>{
         Name,
         Email,
         Password:hashedPassword,
-        Phone
+        Phone,
+        City:City.value,
+        State:State.value,
+        Gender,
+        hearAbout
      })
       
      return res.status(200).json({
@@ -197,7 +202,7 @@ exports.ResetPasswordToken = async(req,res)=>{
        
       })
     }
-   const sendVerificationlink = mailSender(email,"Verification link from Artform",passwordUpdated(email,userExists.Name,uuid))
+   const sendVerificationlink = mailSender(email,"Verification link from DataHarborX",passwordUpdated(email,userExists.Name,uuid))
    return res.json({
     success:true,
     message:"password reset link sent successfully",
@@ -205,7 +210,46 @@ exports.ResetPasswordToken = async(req,res)=>{
    })
     
   } catch (error) {
-    
+    return res.json({
+      success:false,
+      message:"password reset link failed",
+     
+     })
   }
+  
+}
 
+exports.ResetPassword = async(req,res)=>{
+  try {
+    const {Password,Confirm_Password,Email} = req.body;
+    console.log(req.body)
+    if(!Password || !Confirm_Password || !Email){
+      return res.json({
+        success:false,
+        message:"all fields are required"
+      })
+    }
+
+    if(Password !== Confirm_Password){
+      return res.json({
+        success:false,
+        message:"password match error"
+      })
+    }
+    const hashedPassword = await bcrypt.hash(Password,10)
+    console.log(hashedPassword)
+    const user =await User.findOneAndUpdate({Email:Email},{Password:hashedPassword},{new:true})
+    console.log(user)
+    return res.json({
+      success:true,
+      message:"password changed successfully",
+      data:user
+    })
+    
+  } catch (error) {
+    return res.json({
+      success:false,
+      message:"password change failed"
+    })
+  }
 }

@@ -27,8 +27,19 @@ exports.createUser = async(req,res)=>{
 
             })
         }
-        const newUser = await UserListing.create({UserName,Email,Phone})
-        newUser.save()
+        const firstname = UserName.split(" ")[0]
+        const lastname = UserName.split(" ")[1]
+        const image = `https://ui-avatars.com/api/?name=${firstname}+${lastname}?background=9E0047&color=9E0047`
+        console.log(image)
+        const data = {
+            UserName,
+            Email,
+            Phone,
+            Image:image
+        }
+        const newUser = await UserListing.create(data)
+      
+        console.log(newUser)
         return res.json({
             success:true,
             message:"created successfully",
@@ -45,7 +56,12 @@ exports.createUser = async(req,res)=>{
 
 exports.updateUser = async(req,res)=>{
     try {
-        const {UserName,Email,Phone,id} = req.body;
+        console.log("updateuser_Req_body", req.body)
+        const {UserName,Email,Phone} = req.body;
+        const {id} = req.params
+        const imageName = req.file ? req.file.filename : undefined;
+     
+        console.log("req_body",req.body)
         if(!UserName || !Email || !Phone || !id){
             return res.json({
                 success:false,
@@ -54,19 +70,29 @@ exports.updateUser = async(req,res)=>{
     
         }
     
-        const updatedUser = await UserListing.findByIdAndUpdate(id,{
-            UserName:UserName,
-            Email:Email,
-            Phone:Phone,
-           
-        },
-        {new:true})
+        const updateFields = {
+            UserName: UserName,
+            Email: Email,
+            Phone: Phone,
+          };
+          if (imageName) {
+            updateFields.Image = imageName;
+          }
+      
+          const updatedUser = await UserListing.findByIdAndUpdate(
+            id,
+            updateFields,
+            { new: true }
+          );
+         console.log('updateduser',updatedUser)
+
         return res.json({
             success:true,
             message:"user updated successfully",
             user:updatedUser
     
         })
+
     } catch (error) {
         return res.json({
             success:false,
@@ -103,35 +129,3 @@ exports.deleteUser = async(req,res)=>{
     }
 }
 
-
-
-exports.updateProfilePicture =  async(req,res)=>{
-    const {id} = req.body;
-    const imageName = req.file.filename
-    console.log("id",id,imageName)
-    try {
-        
-        if(!imageName || !id){
-            return res.json({
-                success:false,
-                message:"all fields are required"
-            })
-        }
-
-        const updatedUser = await UserListing.findByIdAndUpdate(id,{
-            Image:imageName
-        },
-        {new:true})
-        return res.json({
-            success:true,
-            message:"image updated successfully",
-            user:updatedUser
-    
-        })
-    } catch (error) {
-        return res.json({
-            success:false,
-            message:"error in updating image"
-        })
-    }
-}
